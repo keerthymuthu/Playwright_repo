@@ -41,16 +41,27 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { //...devices['Desktop Chrome'] 
+      use: { ...devices['Desktop Chrome'], 
       headless: false, 
-      viewport: null
+      viewport: null,
+      deviceScaleFactor: undefined, // required when viewport is null
+      launchOptions: {
+        args: ['--start-maximized'],
+      },
       },
     },
 
-   // {
-   //   name: 'firefox',
-   //   use: { ...devices['Desktop Firefox'] },
-   // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] ,
+      headless: false, 
+      viewport: null,
+      deviceScaleFactor: undefined, // required when viewport is null
+      launchOptions: {
+        args: ['--start-maximized'],
+      },
+      },
+    },
 
    // {
    //   name: 'webkit',

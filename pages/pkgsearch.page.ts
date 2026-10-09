@@ -5,9 +5,9 @@ import test, {Locator} from "@playwright/test";
 export class PkgSearchPage extends BasePage{
     readonly package: Locator = this.page.getByRole(`tab`,{name: `Flight + Hotel`,exact: true});
     readonly ele_from: Locator = this.page.getByLabel(`From`);
-    readonly ele_from_loc: Locator = this.page.getByText(process.env.FROM!,{exact: true});
+    //readonly ele_from_loc: Locator = this.page.getByText(process.env.FROM!,{exact: true});
     readonly ele_to: Locator = this.page.getByLabel(`To`,{exact: true});
-    readonly ele_to_loc: Locator = this.page.getByText(process.env.TO!,{exact: true});
+    //readonly ele_to_loc: Locator = this.page.getByText(process.env.TO!,{exact: true});
     readonly ele_pax: Locator = this.page.locator(`//button[@role='button']`).filter({hasText: `Travelers`});
     readonly ele_pax_inc: Locator = this.page.getByLabel(`Increase the number of adult passengers.`);
     readonly ele_pax_dec: Locator = this.page.getByLabel(`Decrease the number of adults passengers. The minimum number is one.`);
@@ -29,12 +29,14 @@ export class PkgSearchPage extends BasePage{
 
     async enterFrom(from: string): Promise<void>{
         await this.ele_from.fill(from);
-        await this.ele_from_loc.click();
+        await this.page.getByText(from,{exact: true}).click();
+        //await this.ele_from_loc.click();
     }
 
     async enterTo(to: string): Promise<void>{
         await this.ele_to.fill(to);
-        await this.ele_to_loc.click();
+        //await this.ele_to_loc.click();
+        await this.page.getByText(to,{exact: true}).click();
     }
 
     async addPax(): Promise<void>{
@@ -43,17 +45,19 @@ export class PkgSearchPage extends BasePage{
         await this.ele_apply_btn.click();
     }
 
-    async chooseDepDate(): Promise<void>{
+    async chooseDepDate(deptDate: string): Promise<void>{
         this.ele_dep_date.click();
-        const departDateLoc: string = contructDateLoc('Arrival',7);
+        //const departDateLoc: string = contructDateLoc('Arrival',7);
+        const departDateLoc: string = contructDateLoc('Departure',Number(deptDate));
         console.log(`Date Locator: ${departDateLoc}`);
         await this.page.waitForSelector(departDateLoc);;
         await this.page.locator(departDateLoc).click({clickCount: 2});
     }
 
-    async chooseReturnDate(): Promise<void>{
+    async chooseReturnDate(arrDate: string): Promise<void>{
         this.ele_arr_date.click();
-        const returnDateLoc: string = contructDateLoc(`Depart`,10);
+        //const returnDateLoc: string = contructDateLoc(`Arrival`,10);
+        const returnDateLoc: string = contructDateLoc(`Arrival`,Number(arrDate));
         await this.page.locator(returnDateLoc).click({clickCount: 2});
     }
 
