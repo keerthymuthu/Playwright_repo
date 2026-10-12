@@ -32,6 +32,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     baseURL: process.env.appUrl,
     trace: 'on-first-retry',
+    screenshot: `on`,
     launchOptions:{
       args: ['--start-maximized']
     },

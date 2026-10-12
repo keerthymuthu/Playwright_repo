@@ -1,6 +1,7 @@
 import { BasePage } from "./base.page";
 import {contructDateLoc} from '../utils/DateCalculator'
-import test, {Locator} from "@playwright/test";
+import {Locator} from "@playwright/test";
+import { PkgHotelPage } from "./pkgHotel.page";
 
 export class PkgSearchPage extends BasePage{
     readonly package: Locator = this.page.getByRole(`tab`,{name: `Flight + Hotel`,exact: true});
@@ -18,10 +19,8 @@ export class PkgSearchPage extends BasePage{
     readonly ele_find_vacation: string = `#submitVacationsBookingForm`;
 
     async navigateToLoginPage(url: string): Promise<void>{
-        await test.step(`Login to Application ${url}`,async() => {
             await this.navigate(url);
-        });
-    }
+    };
 
     async selectPackage(): Promise<void>{
         await this.package.click();
@@ -62,7 +61,7 @@ export class PkgSearchPage extends BasePage{
     }
 
     async clickFindVacationBtn(): Promise<void>{
-        await this.windowHandle(this.ele_find_vacation,``);
-        await this.page.waitForTimeout(8000);
+        const newWindow = await this.windowHandle(this.ele_find_vacation,``);
+        //await newWindow.bringToFront();
     }
 }

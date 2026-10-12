@@ -1,8 +1,9 @@
 import {test as base} from "@playwright/test";
 import { PkgSearchPage } from "../pages/pkgsearch.page";
+import { PkgHotelPage } from "../pages/pkgHotel.page";
 
 type PageFixtures = {
-    pkgSearchPage: PkgSearchPage;
+    pkgSearchPage: PkgSearchPage
 };
 
 export const test = base.extend<PageFixtures>({

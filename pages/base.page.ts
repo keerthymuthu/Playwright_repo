@@ -7,9 +7,9 @@ export class BasePage{
     }
 
     async navigate(url: string): Promise<void>{
-        await this.page.goto(url);
-        await this.page.waitForLoadState(`load`);
-        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.goto(url,{waitUntil: `load`});
+        //await this.page.waitForLoadState(`load`);
+        //await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForFunction(()=>document.readyState === `complete`);
         expect(await this.page.title()).toBe(`Vacation Packages & Deals | Getaways by Southwest™`);
     }
@@ -47,12 +47,31 @@ export class BasePage{
     
                 console.log(`New window found, waiting for load state.`);
                 await newWindow.waitForLoadState('load');
+                await newWindow.waitForLoadState(`domcontentloaded`);
+                await newWindow.waitForFunction(() => document.readyState === `complete`);
     
                 const url = newWindow.url();
                 console.log(`New window detected: URL = ${url}`);
-                await expect(newWindow).toHaveURL(url);
+                await expect.soft(newWindow).toHaveURL(url);
     
                 return newWindow;
             });
+        }
+
+        /**
+        * Lists out the hotel names.
+        * @param window The window from which the action has to take place.
+        * @param locator The selector to locate the element that triggers the new window.
+        * @param name The name or description of the element to be clicked.
+        * @returns A promise that resolves to the Page object representing the new window.
+        */
+
+         async hotelNames(newWindow: Page, locator: string, name: string): Promise<string[]>{
+             return test.step(`List of ${name}`, async() => {
+                await newWindow.waitForSelector(locator,{ state: 'attached' });
+                await expect(newWindow.locator(locator).first()).toBeVisible();
+                const hotels: string[] = await newWindow.locator(locator).allTextContents();
+                return hotels;
+            });               
         }
 }
