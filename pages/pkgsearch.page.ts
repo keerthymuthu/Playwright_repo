@@ -1,9 +1,10 @@
 import { BasePage } from "./base.page";
 import {contructDateLoc} from '../utils/DateCalculator'
-import {Locator} from "@playwright/test";
+import {Locator, BrowserContext} from "@playwright/test";
 import { PkgHotelPage } from "./pkgHotel.page";
 
 export class PkgSearchPage extends BasePage{
+     
     readonly package: Locator = this.page.getByRole(`tab`,{name: `Flight + Hotel`,exact: true});
     readonly ele_from: Locator = this.page.getByLabel(`From`);
     //readonly ele_from_loc: Locator = this.page.getByText(process.env.FROM!,{exact: true});
@@ -60,8 +61,8 @@ export class PkgSearchPage extends BasePage{
         await this.page.locator(returnDateLoc).click({clickCount: 2});
     }
 
-    async clickFindVacationBtn(): Promise<void>{
+    async clickFindVacationBtn(): Promise<PkgHotelPage>{
         const newWindow = await this.windowHandle(this.ele_find_vacation,``);
-        //await newWindow.bringToFront();
+        return new PkgHotelPage(newWindow,this.context);
     }
 }

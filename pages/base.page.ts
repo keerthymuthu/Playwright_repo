@@ -53,7 +53,6 @@ export class BasePage{
                 const url = newWindow.url();
                 console.log(`New window detected: URL = ${url}`);
                 await expect.soft(newWindow).toHaveURL(url);
-    
                 return newWindow;
             });
         }
