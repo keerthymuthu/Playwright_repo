@@ -2,6 +2,23 @@ import {expect, test} from "@playwright/test";
 
 test(`Frame test using page.frames()`,async({page})=>{
     await page.goto(`https://leafground.com/frame.xhtml`,{waitUntil: `load`});
+    await page.frame({url: `https://leafground.com/default.xhtml`})?.click(`#Click`);
+    console.log(await page.frame({url: `https://leafground.com/default.xhtml`})?.innerText(`#Click`));
+
+
+    await page.frame({url: `https://leafground.com/page.xhtml`})?.frameLocator(`#frame2`)
+    .getByText(`Click Me`).click();
+
+    const text = await page.frame({url: `https://leafground.com/page.xhtml`})?.frameLocator(`#frame2`)
+    .locator(`#Click`).innerText();
+
+    console.log(text);
+
+    const nest = await page.frame({url: `https://leafground.com/nested.xhtml`})?.locator(`#Click`).innerText();
+    console.log(nest);
+    await page.waitForTimeout(5000);
+
+    await page.goto(`https://leafground.com/frame.xhtml`,{waitUntil: `load`});
     const frame = page.frame({url: `https://leafground.com/default.xhtml`});
     
     await frame?.click(`#Click`);
@@ -12,11 +29,12 @@ test(`Frame test using page.frames()`,async({page})=>{
     
     const frame1 = page.frame({url: `https://leafground.com/page.xhtml`});
     await frame1?.frameLocator(`#frame2`).getByText(`Click Me`).click();
-    const text = await frame1?.frameLocator(`#frame2`).locator(`#Click`).innerText();
-    expect(text).toEqual(`Hurray! You Clicked Me.`);
+    const text1 = await frame1?.frameLocator(`#frame2`).locator(`#Click`).innerText();
+    expect(text1).toEqual(`Hurray! You Clicked Me.`);
 
     await page.locator(`.card`).filter({hasText:`frames in this page?`}).frameLocator(`iframe`)
     .getByText(`Count Frames`).click();
 
     await page.waitForTimeout(6000);
+
 });
