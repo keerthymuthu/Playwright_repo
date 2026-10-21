@@ -30,7 +30,7 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    baseURL: process.env.appUrl,
+    baseURL: process.env.appUrl as string,
     video: 'on',
     trace: 'on-first-retry',
     screenshot: `on`,
@@ -44,12 +44,12 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], 
-      headless: false, 
-      viewport: null,
-      deviceScaleFactor: undefined, // required when viewport is null
-      launchOptions: {
-        args: ['--start-maximized'],
-      },
+      headless: true, 
+      //viewport: null,
+      //deviceScaleFactor: undefined, // required when viewport is null
+      //launchOptions: {
+      //  args: ['--start-maximized'],
+      //},
       },
     },
 
