@@ -1,5 +1,5 @@
 import { BasePage } from "./base.page";
-import {contructDateLoc} from '../utils/DateCalculator'
+import {contructDateLoc,constructDateMonth} from '../utils/DateCalculator'
 import {Locator, BrowserContext} from "@playwright/test";
 import { PkgHotelPage } from "./pkgHotel.page";
 
@@ -30,12 +30,10 @@ export class PkgSearchPage extends BasePage{
     async enterFrom(from: string): Promise<void>{
         await this.ele_from.fill(from);
         await this.page.getByText(from,{exact: true}).click();
-        //await this.ele_from_loc.click();
     }
 
     async enterTo(to: string): Promise<void>{
         await this.ele_to.fill(to);
-        //await this.ele_to_loc.click();
         await this.page.getByText(to,{exact: true}).click();
     }
 
@@ -46,19 +44,26 @@ export class PkgSearchPage extends BasePage{
     }
 
     async chooseDepDate(deptDate: string): Promise<void>{
-        this.ele_dep_date.click();
+        const departDate:string = constructDateMonth(Number(deptDate));
+        await this.ele_dep_date.clear();
+        await this.ele_dep_date.pressSequentially(departDate);
+        await this.ele_dep_date.press(`Tab`)
         //const departDateLoc: string = contructDateLoc('Arrival',7);
-        const departDateLoc: string = contructDateLoc('Departure',Number(deptDate));
-        console.log(`Date Locator: ${departDateLoc}`);
-        await this.page.waitForSelector(departDateLoc);;
-        await this.page.locator(departDateLoc).click({clickCount: 2});
+        //const departDateLoc: string = contructDateLoc('Departure',Number(deptDate));
+        //console.log(`Date Locator: ${departDateLoc}`);
+        //await this.page.waitForSelector(departDateLoc);;
+        //await this.page.locator(departDateLoc).click({clickCount: 2});
+
     }
 
     async chooseReturnDate(arrDate: string): Promise<void>{
-        this.ele_arr_date.click();
+        const arrvDate:string = constructDateMonth(Number(arrDate));
+        await this.ele_arr_date.clear();
+        await this.ele_arr_date.pressSequentially(arrvDate);
+        await this.ele_arr_date.press(`Tab`);
         //const returnDateLoc: string = contructDateLoc(`Arrival`,10);
-        const returnDateLoc: string = contructDateLoc(`Arrival`,Number(arrDate));
-        await this.page.locator(returnDateLoc).click({clickCount: 2});
+        //const returnDateLoc: string = contructDateLoc(`Arrival`,Number(arrDate));
+        //await this.page.locator(returnDateLoc).click({clickCount: 2});
     }
 
     async clickFindVacationBtn(): Promise<PkgHotelPage>{

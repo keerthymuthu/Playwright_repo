@@ -11,3 +11,13 @@ export function contructDateLoc(travelType: string=`Departure`, day: number): st
     console.log(`Date Locator: ${dateLoc}`);
     return dateLoc;
 }
+
+export function constructDateMonth(day: number): string{
+    const currentDate: Date = new Date();
+    const futureDate: Date = new Date(currentDate);
+    futureDate.setDate(futureDate.getDate()+day);
+    let month: string = String(futureDate.getMonth()+1).padStart(2,"0");
+    let dayNum: string = String(futureDate.getDate()).padStart(2,"0");
+    let targetDate: string = month.concat(dayNum);
+    return targetDate;
+}

@@ -2,9 +2,8 @@ import { expect,test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 
-//const dir = path.resolve(process.cwd(),`testData/API`)
-//const inputFile = fs.readFileSync(path.join(dir, 'Create_incident.json'),`utf-8`);
-const inputFile = fs.readFileSync(path.resolve(`testData/API/Create_incident.json`),`utf-8`);
+const dir = path.resolve(process.cwd(),`testData/API`)
+const inputFile = fs.readFileSync(path.join(dir, 'Create_incident.json'),`utf-8`);
 const jsonFile = JSON.parse(inputFile);
 console.log(`Input sys_id: ${jsonFile.sys_id}`);
 jsonFile.approval = `Approved`;
