@@ -4,7 +4,9 @@ import path from "path";
 
 //const dir = path.resolve(process.cwd(),`testData/API`);
 //const inputFile = fs.readFileSync(path.join(dir, 'Create_incident.json'),`utf-8`);
-const inputFile = fs.readFileSync(path.join(__dirname,`../../testdata/API/Create_incident.json`),`utf-8`);
+const filePath = path.resolve(process.cwd(),'testdata','API','Create_incident.json');
+const inputFile = fs.readFileSync(filePath,`utf-8`);
+//const inputFile = fs.readFileSync(path.join(__dirname,`../../testdata/API/Create_incident.json`),`utf-8`);
 const jsonFile = JSON.parse(inputFile);
 console.log(`Input sys_id: ${jsonFile.sys_id}`);
 jsonFile.approval = `Approved`;
